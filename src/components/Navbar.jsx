@@ -18,7 +18,7 @@ export default function Navbar() {
                     <NavigationMenuLink asChild><Link to=''>Home</Link></NavigationMenuLink>
                 </NavigationMenuItem>
                <NavigationMenuItem className="hidden md:block">
-                <NavigationMenuTrigger>Doctors</NavigationMenuTrigger>
+                <NavigationMenuTrigger>doctors</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[200px] gap-4">
                         <li>
@@ -37,4 +37,3 @@ export default function Navbar() {
     );
 };
 
- 

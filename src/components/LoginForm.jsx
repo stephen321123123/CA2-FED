@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardAction,
@@ -10,51 +10,44 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
+export default function LoginForm({onLogin}) {
+  const [form, setForm] = useState({});
 
+  const handleForm = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
+  const submitForm = (e) => {
+    e.preventDefault();
 
+    const fetchLogin = async () => {
+      const options = {
+        method: "POST",
+        url: "https://ca2-med-api.vercel.app/doctors/login",
+        data: form
+      };
 
-export default function LoginForm({loggedIn, onLogin}){
-    const [form, setForm] = useState({});
+      try {
+        let response = await axios.request(options);
+        console.log(response.data);
 
-    const handleForm = e => {
-        setForm({...form,
-            [e.target.name]: e.target.value
-        });
+        onLogin(true, response.data.token);
+      } catch (err) {
+        console.log(err.response.data);
+      }
     };
 
-    const submitForm = (e) => {
-        e.preventDefault();
+    fetchLogin();
 
-        const fetchLogIn = async () => {
-            const options = {
-                method: "POST",
-                url: "https://festivals-api.vercel.app/login",
-                data: form
-            };
+    console.log(form);
+  };
 
-            try {
-                let response = await axios.request(options);
-                console.log(response.data);
-
-                onLogin(true, response.data.token);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-
-    fetchLogIn();
-
-        console.log(form);
-    };
-
-    return(
-        
-    <Card className="w-full max-w-sm">
+  return (
+    <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>
@@ -72,19 +65,19 @@ export default function LoginForm({loggedIn, onLogin}){
                 type="email"
                 placeholder="m@example.com"
                 required
-                onChange={handleForm} 
+                onChange={handleForm}
               />
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
               </div>
-                <Input 
-                id="password" 
+              <Input
+                id="password"
                 name="password"
-                type="password" 
-                required 
-                onChange={handleForm} 
+                type="password"
+                required
+                onChange={handleForm}
               />
             </div>
           </div>
@@ -96,5 +89,5 @@ export default function LoginForm({loggedIn, onLogin}){
         </Button>
       </CardFooter>
     </Card>
-    )
+  );
 }
